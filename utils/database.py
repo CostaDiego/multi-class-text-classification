@@ -5,15 +5,18 @@ class DatabaseConection(object):
     """
     """
 
-    def __init__(self, host:str, database, user):
+    def __init__(self, host: str, database: str, user: str):
         self._con = None
+        self._host = host
+        self._database = database
+        self._user = user
         self.connected = False
-        
+
         try:    
             self._con = psycopg2.connect(
-                host= host,
-                database= database,
-                user=user,
+                host= self._host,
+                database= self._database,
+                user= self._user,
                 password = getpass(
                     prompt= 'Input the password:\n',
                     stream= None
@@ -48,3 +51,27 @@ class DatabaseConection(object):
     def closeConnection(self):
         self._con.close()
         self.connected = False
+
+    def connect(host = None, database = None, user = None):
+        if host:
+            self._host = host
+        if database:
+            self._database = database
+        if user:
+            self._user = user
+
+        try:
+            self._con = psycopg2.connect(
+                host= self._host,
+                database= self._database,
+                user= self._user,
+                password = getpass(
+                    prompt= 'Input the password:\n',
+                    stream= None
+                ))
+            self.connected = True
+            print('\tConnection established!')
+
+        except:
+            self.connected = False
+            print('\tFailed to establish connection!')
