@@ -22,6 +22,7 @@ class DatabaseConection(object):
                     stream= None
                 ))
             self.connected = True
+            print('\tConnection established!')
 
         except:
             print('\tFailed to establish connection!')
@@ -52,7 +53,7 @@ class DatabaseConection(object):
         self._con.close()
         self.connected = False
 
-    def connect(host = None, database = None, user = None):
+    def connect(self, host = None, database = None, user = None):
         if host:
             self._host = host
         if database:
