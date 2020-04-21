@@ -6,6 +6,9 @@ class DatabaseConection(object):
     """
 
     def __init__(self, host:str, database, user):
+        self._con = None
+        self.connected = False
+        
         try:    
             self._con = psycopg2.connect(
                 host= host,
@@ -15,6 +18,8 @@ class DatabaseConection(object):
                     prompt= 'Input the password:\n',
                     stream= None
                 ))
+            self.connected = True
+
         except:
             print('\tFailed to establish connection!')
 
@@ -42,3 +47,4 @@ class DatabaseConection(object):
     
     def closeConnection(self):
         self._con.close()
+        self.connected = False
