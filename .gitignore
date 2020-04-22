@@ -130,3 +130,6 @@ dmypy.json
 
 #VScode setting file
 .vscode*
+
+#Ignore input data files
+data*
