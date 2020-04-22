@@ -132,4 +132,4 @@ dmypy.json
 .vscode*
 
 #Ignore input data files
-data*
+data/*
