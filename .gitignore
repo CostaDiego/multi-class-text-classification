@@ -133,3 +133,6 @@ dmypy.json
 
 #Ignore input data files
 data/*
+
+# Ignore jupyter prototyping kernel
+prototyping.ipynb
