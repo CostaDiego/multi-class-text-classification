@@ -2,24 +2,20 @@ import pandas as pd
 import os
 import gc
 
-class PreProcess(object):
-    """ Pre-Processing Class
-    Class designed to perform all preprocessing operation on the '.csv' files
+class ColumnClear(object):
+    """ Column Clear: A Pre-Processing Class
+    Class designed to perform the column clear operation on the '.csv' files
     """
+    TARGET_FOLDER = "columnClear"
 
-    _OPERATION = ['COLUMN_CLEAR']
-
-    def __init__(self, folder, fileFormat = 'csv', operation = None):
-        self.folder = folder
+    def __init__(self, folder, fileFormat = 'csv'):
+        self.folder = os.path.normpath(folder)
         self.fileFormat = fileFormat
+        # self.targetFolder = os.path.join(
+        #     os.path.dirname(self.folder),
+        #     targetFolder)
         self._files = []
         self._dataFrames = []
-
-        if operation and operation in self.__class__._OPERATION:
-            self.operation = self._getOperation(operation)
-
-        else:
-            self.operation = operation
 
         for file in os.listdir(self.folder):
             file = os.path.join(self.folder, file)
@@ -34,10 +30,7 @@ class PreProcess(object):
         for file in self._files:
             files.append(os.path.split(file)[1])
         
-        return files
-
-    def setOperation(self, operation):
-        self._getOperation(operation)            
+        return files           
 
     def apply(self, **kwargs):
         dataframes = []
@@ -46,7 +39,7 @@ class PreProcess(object):
             fileName = os.path.splitext(fileName)[0]    
             tmpDf = pd.read_csv(filePath)
 
-            tmpDf = self.operation(tmpDf, kwargs.get(fileName))
+            tmpDf = self._columnClearMethod(tmpDf, kwargs.get(fileName))
             dataframes.append(tmpDf)
             
             del(tmpDf)
@@ -55,15 +48,9 @@ class PreProcess(object):
         self._dataFrames = dataframes
 
         return self._dataFrames
-
-
-
-    def _getOperation(self, operation):
-        # COLUMN_CLEAR Option
-        if operation.upper() == self.__class__._OPERATION[0]:
-            return self.columnClearMethod
     
-    def columnClearMethod(self, dataFrame: pd.DataFrame, columns: list):
+    def _columnClearMethod(self, dataFrame: pd.DataFrame, columns: list):
         dfCleared = dataFrame[columns]
 
         return dfCleared
+
