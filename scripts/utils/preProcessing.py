@@ -11,9 +11,6 @@ class ColumnClear(object):
     def __init__(self, folder, fileFormat = 'csv'):
         self.folder = os.path.normpath(folder)
         self.fileFormat = fileFormat
-        # self.targetFolder = os.path.join(
-        #     os.path.dirname(self.folder),
-        #     targetFolder)
         self._files = []
         self._dataFrames = []
 
